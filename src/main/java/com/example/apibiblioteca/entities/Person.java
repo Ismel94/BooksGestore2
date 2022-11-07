@@ -9,11 +9,11 @@ import java.util.Objects;
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     @Column(name = "name")
     private String name;
 
-    public Person(Long id, String name) {
+    public Person(long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -21,7 +21,7 @@ public class Person {
     public Person() {
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
