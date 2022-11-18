@@ -22,6 +22,7 @@ public class UserService {
     @Autowired
     private BookRepository bookRepository;
 
+    // CREAR USUARIO
     public String saveUser(User user){
         if (user.getName() != null && user.getEmail() != null) {
             userRepository.save(user);
@@ -29,6 +30,7 @@ public class UserService {
         }
         return "Los campos nombre y email deben ser validos";
     }
+    // ACTUALIZAR USUARIO
     public String updateUser(User user, long id){
         //User user = new User();
         try{
@@ -45,7 +47,7 @@ public class UserService {
         }
         return "User Update";
     }
-
+    // OBTENER USUARIO
     public User getUserById(long id){
         try {
             Optional<User> optionalUser = userRepository.findById(id);
@@ -58,6 +60,7 @@ public class UserService {
         }
         return null;
     }
+    // ELIMINAR USUARIO
     public String deleteUser(long id){
         try {
             Optional<User> optionalUser = userRepository.findById(id);
@@ -70,6 +73,7 @@ public class UserService {
         }
         return null;
     }
+    // PERSTAR UN LIBRO
     public String loanBook(long idBook, long idUser){
         User user = userRepository.findById(idUser).get();
         Book book = bookRepository.findById(idBook).get();
@@ -81,6 +85,7 @@ public class UserService {
         bookRepository.save(book);
         return "The Book "+book.getTitle()+"to Loan to "+user.getName();
     }
+    // LISTA SOLO LOS USUARIOS
     public List<UserDto2> listUsers(){
         List<User> userIterable = (List<User>) userRepository.findAll();
         List<UserDto2> userDtos = new ArrayList<>();
@@ -96,6 +101,7 @@ public class UserService {
 
         return userDtos;
     }
+    // ESTE LISTA LOS USUARIOS CON SUS LIBROS
     public List<UserDto3> listUsersBooks() {
         List<User> userIterable = (List<User>) userRepository.findAll();
         List<UserDto3> userDtos = new ArrayList<>();

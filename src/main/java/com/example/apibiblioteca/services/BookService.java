@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
 import java.util.*;
 
 @Service
@@ -19,19 +18,12 @@ public class BookService {
     @Autowired
     private AuthorRepository authorRepository;
 
+    // CREAR LIBRO
     public String saveBook(Book book){
-        //Set<Author> authorIterator = book.getAuthors();
-        //Book book1 = book;
-        //Optional<Author> author1 = null;
-        //System.err.println(authorIterator);
-        //for (Author author:authorIterator){
-            //author1 = authorRepository.findById(author.getIdPerson());
-            //book1.getAuthors().add(author1);
-            //author1.getBooks().add(book1);
-        //}
         bookRepository.save(book);
         return "Book Saved";
     }
+    // ACTUALIZAR LIBRO
     public String updateBook(Book book,long id){
         Book book1 = bookRepository.findById(id).get();
         try{
@@ -55,9 +47,11 @@ public class BookService {
         }
         return "Book Update";
     }
+    // LISTAR LIBRO
     public Iterable<Book> listBooks(){
         return bookRepository.findAll();
     }
+    // OBTENER UN LIBRO
     public Book getBookById(long id){
         try {
             Optional<Book> optionalBook = bookRepository.findById(id);
@@ -70,6 +64,7 @@ public class BookService {
         }
         return null;
     }
+    // ELIMINAR LIBRO
     public String deleteBook(long id){
         try {
             Optional<Book> optionalBook = bookRepository.findById(id);
@@ -82,7 +77,8 @@ public class BookService {
         }
         return null;
     }
-    public List<Book> findBookByYear(Date year){
-        return null;
+    // LISTAR LIBROS POR YEAR
+    public List<Book> findAllByYear(Date year){
+        return bookRepository.findAllByYear(year);
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -46,8 +47,8 @@ public class BookController {
     }
     // get books by year
     @GetMapping(value = "/getByYear/{year}")
-    public Iterable<Book> findByAllDataBetween(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date year){
-        return bookService.findBookByYear(year);
+    public List<Book> findAllByYear(@PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") Date year){
+        return bookService.findAllByYear(year);
     }
 
 }

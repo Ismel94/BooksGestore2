@@ -26,11 +26,10 @@ public class Book implements Serializable {
     private Author author;
 
     @ManyToMany(mappedBy = "books")
-    @JsonManagedReference
     private List<User> users = new ArrayList<>();
 
     @Column(name = "year")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date year;
 
     @Column(name = "canttotal")

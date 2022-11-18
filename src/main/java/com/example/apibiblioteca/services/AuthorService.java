@@ -14,10 +14,12 @@ public class AuthorService {
     @Autowired
     private AuthorRepository authorRepository;
 
+    // CREAR AUTOR
     public String saveAuthor(Author author){
         authorRepository.save(author);
         return "Author Saved";
     }
+    // ACTUALIZAR AUTOR
     public String updateAuthor(Author author,long id){
         Author author1 = authorRepository.findById(id).get();
         try{
@@ -33,6 +35,7 @@ public class AuthorService {
         }
         return "Author Update";
     }
+    // LISTAR AUTORES
     public Iterable<Author> listAuthors(){
         return authorRepository.findAll();
     }
@@ -48,6 +51,7 @@ public class AuthorService {
         }
         return null;
     }
+    // ELIMINAR AUTOR
     public String deleteAuthor(long id){
         try {
             Optional<Author> optionalAuthor = authorRepository.findById(id);
@@ -60,6 +64,7 @@ public class AuthorService {
         }
         return null;
     }
+    // LISTAR LIBROS POR AUTOR
     public Iterable<Book> booksByAuthor(long id) {
         return authorRepository.findById(id).get().getBooks();
     }
