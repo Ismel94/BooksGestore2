@@ -1,28 +1,32 @@
 package com.example.apibiblioteca.entities;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.Objects;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "persons")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "idPerson")
+    private Long idPerson;
     @Column(name = "name")
     private String name;
 
-    public Person(long id, String name) {
-        this.id = id;
+    public Person(Long id, String name) {
+        this.idPerson = id;
         this.name = name;
     }
 
     public Person() {
     }
 
-    public long getId() {
-        return id;
+    public Long getId() {
+        return idPerson;
+    }
+
+    public void setId(Long id) {
+        this.idPerson = id;
     }
 
     public String getName() {
@@ -31,26 +35,5 @@ public class Person {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Person person = (Person) o;
-        return Objects.equals(id, person.id) && Objects.equals(name, person.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

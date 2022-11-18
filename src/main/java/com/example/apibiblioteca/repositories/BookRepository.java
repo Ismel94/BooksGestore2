@@ -4,15 +4,9 @@ import com.example.apibiblioteca.entities.Book;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.xml.crypto.Data;
-import java.io.Serializable;
-import java.util.Optional;
-import java.util.Set;
-
+import java.util.Date;
 
 @Repository
-public interface BookRepository extends CrudRepository<Book, Serializable> {
-    Optional<Book> findByName(String nameAuthor);
+public interface BookRepository extends CrudRepository<Book, Long> {
 
-    Set<Book> findByYearContaining(Data year);
 }

@@ -1,56 +1,52 @@
 package com.example.apibiblioteca.entities;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.*;
 
 @Entity
-@Table(name = "user")
-public class User extends Person{
+@Table(name = "users")
+@PrimaryKeyJoinColumn(referencedColumnName = "idPerson")
+@JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class,property = "@idPerson")
+public class User extends Person implements Serializable {
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private Set<Book> books = new HashSet<>();
+    @Column(name = "email")
+    private String email;
 
-    public User(Long id, String name) {
-        super(id, name);
-    }
+    @ManyToMany()
+    @JoinTable(name = "books_users",joinColumns = {@JoinColumn(name = "idPerson")}, inverseJoinColumns = {@JoinColumn(name = "IdBook")})
+    private List<Book> books = new ArrayList<>();
 
     public User() {
     }
 
-    public Set<Book> getBooks() {
+    public User(Long id, String name, String email, List<Book> books) {
+        super(id, name);
+        this.email = email;
+        this.books = books;
+    }
+
+    public User(String email, List<Book> books) {
+        this.email = email;
+        this.books = books;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(Set<Book> books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
-        for (Book book: books){
-            book.setUser(this);
-        }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        User user = (User) o;
-        return Objects.equals(books, user.books);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), books);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "books=" + books +
-                '}';
     }
 }

@@ -1,6 +1,7 @@
 package com.example.apibiblioteca.services;
 
 import com.example.apibiblioteca.entities.Author;
+import com.example.apibiblioteca.entities.Book;
 import com.example.apibiblioteca.repositories.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -17,16 +18,14 @@ public class AuthorService {
         authorRepository.save(author);
         return "Author Saved";
     }
-    public String updateAuthor(long id){
-        Author author = new Author();
+    public String updateAuthor(Author author,long id){
+        Author author1 = authorRepository.findById(id).get();
         try{
-            Optional<Author> optionalAuthor = authorRepository.findById(id);
-            if (optionalAuthor.isPresent()){
-                Author author1 = optionalAuthor.get();
-                if (author1.getName()!=null)
-                    author.setName(author1.getName());
+            if (author != null){
+                if (author.getName()!=null)
+                    author1.setName(author.getName());
             }
-            authorRepository.save(author);
+            authorRepository.save(author1);
         }catch (IllegalArgumentException e1){
             e1.printStackTrace();
         }catch (OptimisticLockingFailureException e2){
@@ -60,5 +59,8 @@ public class AuthorService {
             e1.printStackTrace();
         }
         return null;
+    }
+    public Iterable<Book> booksByAuthor(long id) {
+        return authorRepository.findById(id).get().getBooks();
     }
 }

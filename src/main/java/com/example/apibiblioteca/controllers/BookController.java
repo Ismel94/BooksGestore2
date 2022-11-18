@@ -3,8 +3,8 @@ package com.example.apibiblioteca.controllers;
 import com.example.apibiblioteca.entities.Book;
 import com.example.apibiblioteca.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Date;
 import java.util.Set;
 
@@ -14,18 +14,18 @@ public class BookController {
     @Autowired
     private BookService bookService;
     // add
-    @PostMapping(path = "/add")
+    @PostMapping(value = "/add")
     public String saveBook(@RequestBody Book book){
         return bookService.saveBook(book);
     }
     // update
     @PutMapping(value = "/update/{id}")
-    public String updateBook(@PathVariable long id){
-        return bookService.updateBook(id);
+    public String updateBook(@RequestBody Book book,@PathVariable long id){
+        return bookService.updateBook(book,id);
     }
 
     // get list book
-    @GetMapping(name = "/listBooks")
+    @GetMapping(path = "/listBooks")
     public Iterable<Book> listBooks(){
         return bookService.listBooks();
     }
@@ -46,13 +46,8 @@ public class BookController {
     }
     // get books by year
     @GetMapping(value = "/getByYear/{year}")
-    public Set<Book> getByYear(@PathVariable Date year){
-        return null;
+    public Iterable<Book> findByAllDataBetween(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date year){
+        return bookService.findBookByYear(year);
     }
 
-    // prestar book to user
-    @GetMapping(value = "/prestar/book/{id}/user/{id}")
-    public String prestarBook(@PathVariable long idBook, @PathVariable long idUser){
-        return null;
-    }
 }
